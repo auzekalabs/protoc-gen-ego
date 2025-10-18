@@ -73,12 +73,109 @@ func (GroupRole) EnumDescriptor() ([]byte, []int) {
 	return file_testdata_message_proto_rawDescGZIP(), []int{0}
 }
 
+type CPU int32
+
+const (
+	CpuX86 CPU = 0
+	CpuArm CPU = 1
+)
+
+// Enum value maps for CPU.
+var (
+	CPU_name = map[int32]string{
+		0: "X86",
+		1: "ARM",
+	}
+	CPU_value = map[string]int32{
+		"X86": 0,
+		"ARM": 1,
+	}
+)
+
+func (x CPU) Enum() *CPU {
+	p := new(CPU)
+	*p = x
+	return p
+}
+
+func (x CPU) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (CPU) Descriptor() protoreflect.EnumDescriptor {
+	return file_testdata_message_proto_enumTypes[1].Descriptor()
+}
+
+func (CPU) Type() protoreflect.EnumType {
+	return &file_testdata_message_proto_enumTypes[1]
+}
+
+func (x CPU) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use CPU.Descriptor instead.
+func (CPU) EnumDescriptor() ([]byte, []int) {
+	return file_testdata_message_proto_rawDescGZIP(), []int{1}
+}
+
+// // test1
+// // test2
+type OS int32
+
+const (
+	Harmony OS = 0
+	IOS     OS = 1
+	Android OS = 2
+)
+
+// Enum value maps for OS.
+var (
+	OS_name = map[int32]string{
+		0: "HARMONY",
+		1: "IOS",
+		2: "ANDROID",
+	}
+	OS_value = map[string]int32{
+		"HARMONY": 0,
+		"IOS":     1,
+		"ANDROID": 2,
+	}
+)
+
+func (x OS) Enum() *OS {
+	p := new(OS)
+	*p = x
+	return p
+}
+
+func (x OS) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (OS) Descriptor() protoreflect.EnumDescriptor {
+	return file_testdata_message_proto_enumTypes[2].Descriptor()
+}
+
+func (OS) Type() protoreflect.EnumType {
+	return &file_testdata_message_proto_enumTypes[2]
+}
+
+func (x OS) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use OS.Descriptor instead.
+func (OS) EnumDescriptor() ([]byte, []int) {
+	return file_testdata_message_proto_rawDescGZIP(), []int{2}
+}
+
 type MessageState int32
 
 const (
-	MessageStateOffline   MessageState = 0
-	MessageStateOnline    MessageState = 1
-	MessageStateInvisible MessageState = 2
+	StateOffline   MessageState = 0
+	StateOnline    MessageState = 1
+	StateInvisible MessageState = 2
 )
 
 // Enum value maps for MessageState.
@@ -106,11 +203,11 @@ func (x MessageState) String() string {
 }
 
 func (MessageState) Descriptor() protoreflect.EnumDescriptor {
-	return file_testdata_message_proto_enumTypes[1].Descriptor()
+	return file_testdata_message_proto_enumTypes[3].Descriptor()
 }
 
 func (MessageState) Type() protoreflect.EnumType {
-	return &file_testdata_message_proto_enumTypes[1]
+	return &file_testdata_message_proto_enumTypes[3]
 }
 
 func (x MessageState) Number() protoreflect.EnumNumber {
@@ -122,12 +219,61 @@ func (MessageState) EnumDescriptor() ([]byte, []int) {
 	return file_testdata_message_proto_rawDescGZIP(), []int{2, 0}
 }
 
+type MessageCity int32
+
+const (
+	MessageBeijing   MessageCity = 0
+	MessageShanghai  MessageCity = 1
+	MessageGuangzhou MessageCity = 2
+)
+
+// Enum value maps for MessageCity.
+var (
+	MessageCity_name = map[int32]string{
+		0: "BEIJING",
+		1: "SHANGHAI",
+		2: "GUANGZHOU",
+	}
+	MessageCity_value = map[string]int32{
+		"BEIJING":   0,
+		"SHANGHAI":  1,
+		"GUANGZHOU": 2,
+	}
+)
+
+func (x MessageCity) Enum() *MessageCity {
+	p := new(MessageCity)
+	*p = x
+	return p
+}
+
+func (x MessageCity) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (MessageCity) Descriptor() protoreflect.EnumDescriptor {
+	return file_testdata_message_proto_enumTypes[4].Descriptor()
+}
+
+func (MessageCity) Type() protoreflect.EnumType {
+	return &file_testdata_message_proto_enumTypes[4]
+}
+
+func (x MessageCity) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use MessageCity.Descriptor instead.
+func (MessageCity) EnumDescriptor() ([]byte, []int) {
+	return file_testdata_message_proto_rawDescGZIP(), []int{2, 1}
+}
+
 type MessageManGender int32
 
 const (
-	MessageManGenderUnspecific MessageManGender = 0
-	MessageManGenderMale       MessageManGender = 1
-	MessageManGenderFemale     MessageManGender = 2
+	Unspecific MessageManGender = 0
+	Male       MessageManGender = 1
+	Female     MessageManGender = 2
 )
 
 // Enum value maps for MessageManGender.
@@ -155,11 +301,11 @@ func (x MessageManGender) String() string {
 }
 
 func (MessageManGender) Descriptor() protoreflect.EnumDescriptor {
-	return file_testdata_message_proto_enumTypes[2].Descriptor()
+	return file_testdata_message_proto_enumTypes[5].Descriptor()
 }
 
 func (MessageManGender) Type() protoreflect.EnumType {
-	return &file_testdata_message_proto_enumTypes[2]
+	return &file_testdata_message_proto_enumTypes[5]
 }
 
 func (x MessageManGender) Number() protoreflect.EnumNumber {
@@ -607,7 +753,7 @@ const file_testdata_message_proto_rawDesc = "" +
 	"\x03cat\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x12\n" +
 	"\x04kind\x18\x02 \x01(\tR\x04kind\x12\x14\n" +
-	"\x05birth\x18\x03 \x01(\x05R\x05birth\"\xec\x05\n" +
+	"\x05birth\x18\x03 \x01(\x05R\x05birth\"\x9e\x06\n" +
 	"\amessage\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
 	"\bsequence\x18\x02 \x01(\x03R\bsequence\x12\x1c\n" +
@@ -649,7 +795,11 @@ const file_testdata_message_proto_rawDesc = "" +
 	"\aOFFLINE\x10\x00\x12\n" +
 	"\n" +
 	"\x06ONLINE\x10\x01\x12\r\n" +
-	"\tINVISIBLE\x10\x02B\x05\n" +
+	"\tINVISIBLE\x10\x02\"0\n" +
+	"\x04City\x12\v\n" +
+	"\aBEIJING\x10\x00\x12\f\n" +
+	"\bSHANGHAI\x10\x01\x12\r\n" +
+	"\tGUANGZHOU\x10\x02B\x05\n" +
 	"\x03pet*K\n" +
 	"\tGroupRole\x12\x0e\n" +
 	"\n" +
@@ -657,7 +807,14 @@ const file_testdata_message_proto_rawDesc = "" +
 	"\aCREATOR\x10\x01\x12\x11\n" +
 	"\rADMINISTRATOR\x10\x02\x12\x0e\n" +
 	"\n" +
-	"VICE_OWNER\x10\x03B\fZ\n" +
+	"VICE_OWNER\x10\x03*\x17\n" +
+	"\x03CPU\x12\a\n" +
+	"\x03X86\x10\x00\x12\a\n" +
+	"\x03ARM\x10\x01*'\n" +
+	"\x02OS\x12\v\n" +
+	"\aHARMONY\x10\x00\x12\a\n" +
+	"\x03IOS\x10\x01\x12\v\n" +
+	"\aANDROID\x10\x02B\fZ\n" +
 	"./testdatab\x06proto3"
 
 var (
@@ -672,21 +829,24 @@ func file_testdata_message_proto_rawDescGZIP() []byte {
 	return file_testdata_message_proto_rawDescData
 }
 
-var file_testdata_message_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_testdata_message_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
 var file_testdata_message_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_testdata_message_proto_goTypes = []any{
 	(GroupRole)(0),        // 0: testdata.GroupRole
-	(MessageState)(0),     // 1: testdata.message.State
-	(MessageManGender)(0), // 2: testdata.message.man.Gender
-	(*Dog)(nil),           // 3: testdata.dog
-	(*Cat)(nil),           // 4: testdata.cat
-	(*Message)(nil),       // 5: testdata.message
-	(*MessageMan)(nil),    // 6: testdata.message.man
+	(CPU)(0),              // 1: testdata.CPU
+	(OS)(0),               // 2: testdata.OS
+	(MessageState)(0),     // 3: testdata.message.State
+	(MessageCity)(0),      // 4: testdata.message.City
+	(MessageManGender)(0), // 5: testdata.message.man.Gender
+	(*Dog)(nil),           // 6: testdata.dog
+	(*Cat)(nil),           // 7: testdata.cat
+	(*Message)(nil),       // 8: testdata.message
+	(*MessageMan)(nil),    // 9: testdata.message.man
 }
 var file_testdata_message_proto_depIdxs = []int32{
-	6, // 0: testdata.message.from:type_name -> testdata.message.man
-	3, // 1: testdata.message.dog:type_name -> testdata.dog
-	4, // 2: testdata.message.cat:type_name -> testdata.cat
+	9, // 0: testdata.message.from:type_name -> testdata.message.man
+	6, // 1: testdata.message.dog:type_name -> testdata.dog
+	7, // 2: testdata.message.cat:type_name -> testdata.cat
 	0, // 3: testdata.message.role:type_name -> testdata.GroupRole
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
@@ -709,7 +869,7 @@ func file_testdata_message_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_testdata_message_proto_rawDesc), len(file_testdata_message_proto_rawDesc)),
-			NumEnums:      3,
+			NumEnums:      6,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,

@@ -52,6 +52,29 @@ const (
 )
 ```
 
+### Customize Enum Name
+- protobuf source code
+using `@go.enum=strip` to strip the enum type name
+```protobuf
+// @go.enum=strip
+enum OS {
+    HARMONY = 0;
+    // @go.name=IOS
+    IOS     = 1;
+    ANDROID = 2;
+}
+```
+
+- generated go source code
+```go
+type OS int32
+const (
+    Harmony OS = 0
+    IOS     OS = 1
+    Android OS = 2
+)
+```
+
 ### Generate Field Tags
     
 - protobuf source code

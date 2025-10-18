@@ -10,6 +10,27 @@ enum GroupRole {
   VICE_OWNER    = 3;
 }
 
+// @go.name=CPU
+enum CPU {
+  X86 = 0;
+  ARM = 1; // @go.name=Arm
+}
+
+/**
+ * @go.enum=strip
+ * @bson.tag=os
+ */
+
+ // test1
+// @go.enum=strip
+// test2
+// @go.name=OS
+enum OS {
+  HARMONY = 0; 
+  IOS = 1;/* @go.name=IOS */
+  ANDROID = 2;
+}
+
 message dog {
   string name = 1;
   int32 age = 2;
@@ -57,6 +78,7 @@ message message {
     string name = 1;
     int32 age = 2; // @go.name=UA
 
+    // @go.enum=strip
     enum Gender {
       UNSPECIFIC = 0;
       MALE = 1;
@@ -74,9 +96,16 @@ message message {
 
   GroupRole role = 24;
 
+  // @go.enum=strip=nested
   enum State {
     OFFLINE   = 0;
-    ONLINE    = 1;
+    ONLINE    = 1; // @go.name=Online
     INVISIBLE = 2;
+  }
+
+  enum City {
+    BEIJING = 0;
+    SHANGHAI = 1; // @go.name=Shanghai
+    GUANGZHOU = 2;
   }
 }

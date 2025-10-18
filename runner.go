@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"fmt"
 	"go/ast"
@@ -114,26 +115,166 @@ func refactorProtoSources(files []*protogen.File) (descs []*FileDescriptor, err 
 	return
 }
 
+const (
+	stripNone = iota
+	stripNested
+	stripAll
+)
+
 func refactorEnumConstants(enums []*protogen.Enum, prefixes ...string) error {
 	if !camelcaseEnumConstants {
 		return nil
 	}
 
-	var prefix string
+	var (
+		prefix   string
+		enumType string
+	)
+
 	if len(prefixes) > 0 {
 		prefix = prefixes[0]
 	}
 
 	for _, enum := range enums {
-		enum.GoIdent.GoName = strcase.UpperCamelCase(enum.GoIdent.GoName)
+		enumType = strings.TrimPrefix(enum.GoIdent.GoName, prefix)
+		strip := renameEnumType(enum)
 		for _, value := range enum.Values {
-			value.GoIdent.GoName = strings.TrimPrefix(value.GoIdent.GoName, prefix)
-			value.GoIdent.GoName = strings.TrimPrefix(value.GoIdent.GoName, enum.GoIdent.GoName)
-			value.GoIdent.GoName = strcase.UpperCamelCase(enum.GoIdent.GoName + value.GoIdent.GoName)
+			renameEnumValue(value, prefix, enumType, strip)
 		}
 	}
 
 	return nil
+}
+
+func renameEnumType(enum *protogen.Enum) (strip int) {
+	const (
+		stripComment  = "@go.enum=strip"
+		goNameComment = "@go.name="
+	)
+
+	var name string
+
+	leading := enum.Comments.Leading.String()
+	var buf bytes.Buffer
+	scanner := bufio.NewScanner(strings.NewReader(leading))
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "" {
+			continue
+		}
+
+		if index := strings.Index(line, stripComment); index >= 0 {
+			line = line[index+len(stripComment):]
+			if strings.HasPrefix(line, "=nested") {
+				strip = stripNested
+			} else {
+				strip = stripAll
+			}
+
+			continue
+		}
+
+		if index := strings.Index(line, goNameComment); index >= 0 {
+			name = strings.TrimSpace(line[index+len(goNameComment):])
+			continue
+		}
+
+		buf.WriteString(line)
+		buf.WriteByte('\n')
+	}
+
+	enum.Comments.Leading = protogen.Comments(buf.String())
+
+	trailing := enum.Comments.Trailing.String()
+	if index := strings.Index(trailing, stripComment); index >= 0 {
+		trailing = trailing[index+len(stripComment):]
+		if strings.HasPrefix(trailing, "=nested") {
+			strip = stripNested
+		} else {
+			strip = stripAll
+		}
+		enum.Comments.Trailing = ""
+	} else if index := strings.Index(trailing, goNameComment); index >= 0 {
+		enum.Comments.Trailing = ""
+		name = strings.TrimSpace(trailing[index+len(goNameComment):])
+	}
+
+	if name != "" {
+		enum.GoIdent.GoName = name
+	} else {
+		enum.GoIdent.GoName = strcase.UpperCamelCase(enum.GoIdent.GoName)
+	}
+
+	return
+}
+
+func renameEnumValue(value *protogen.EnumValue, prefix, enum string, strip int) {
+	var (
+		name string
+		buf  bytes.Buffer
+	)
+
+	const goNameComment = "@go.name="
+
+	scanner := bufio.NewScanner(strings.NewReader(value.Comments.Leading.String()))
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "" {
+			continue
+		}
+
+		if index := strings.Index(line, goNameComment); index >= 0 {
+			name = strings.TrimSpace(line[index+len(goNameComment):])
+			continue
+		}
+
+		buf.WriteString(line)
+		buf.WriteByte('\n')
+	}
+
+	value.Comments.Leading = protogen.Comments(buf.String())
+	if name == "" {
+		trailing := value.Comments.Trailing.String()
+		if index := strings.Index(trailing, goNameComment); index >= 0 {
+			name = strings.TrimSpace(trailing[index+len(goNameComment):])
+			value.Comments.Trailing = ""
+		}
+	}
+
+	switch strip {
+	case stripAll:
+		if name != "" {
+			value.GoIdent.GoName = name
+			return
+		}
+
+		if prefix != "" {
+			value.GoIdent.GoName = strings.TrimPrefix(value.GoIdent.GoName, prefix+"_")
+		} else {
+			value.GoIdent.GoName = strings.TrimPrefix(value.GoIdent.GoName, enum+"_")
+
+		}
+	case stripNested:
+		if name != "" {
+			value.GoIdent.GoName = strcase.UpperCamelCase(enum) + name
+			return
+		} else {
+			value.GoIdent.GoName = strings.TrimPrefix(value.GoIdent.GoName, prefix+"_")
+			value.GoIdent.GoName = enum + "_" + value.GoIdent.GoName
+		}
+	default:
+		if name != "" {
+			if prefix != "" {
+				value.GoIdent.GoName = strcase.UpperCamelCase(prefix) + name
+			} else {
+				value.GoIdent.GoName = strcase.UpperCamelCase(enum) + name
+			}
+
+			return
+		}
+	}
+
+	value.GoIdent.GoName = strcase.UpperCamelCase(value.GoIdent.GoName)
 }
 
 func regenerateGoSources(descs []*FileDescriptor, sources []*pluginpb.CodeGeneratorResponse_File) (err error) {
