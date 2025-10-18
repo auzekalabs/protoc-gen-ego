@@ -1,4 +1,4 @@
-# protc-gen-ego
+# protoc-gen-ego
 
 The protoc-gen-ego project is another protoc plugin to generate Go code for both proto2 and proto3 versions of the protocol buffer language. 
 
