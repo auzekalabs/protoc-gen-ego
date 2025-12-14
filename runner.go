@@ -159,24 +159,22 @@ func renameEnumType(enum *protogen.Enum) (strip int) {
 	scanner := bufio.NewScanner(strings.NewReader(leading))
 	for scanner.Scan() {
 		line := scanner.Text()
-		if line == "" {
-			continue
-		}
+		if line != "" {
+			if index := strings.Index(line, stripComment); index >= 0 {
+				line = line[index+len(stripComment):]
+				if strings.HasPrefix(line, "=nested") {
+					strip = stripNested
+				} else {
+					strip = stripAll
+				}
 
-		if index := strings.Index(line, stripComment); index >= 0 {
-			line = line[index+len(stripComment):]
-			if strings.HasPrefix(line, "=nested") {
-				strip = stripNested
-			} else {
-				strip = stripAll
+				continue
 			}
 
-			continue
-		}
-
-		if index := strings.Index(line, goNameComment); index >= 0 {
-			name = strings.TrimSpace(line[index+len(goNameComment):])
-			continue
+			if index := strings.Index(line, goNameComment); index >= 0 {
+				name = strings.TrimSpace(line[index+len(goNameComment):])
+				continue
+			}
 		}
 
 		buf.WriteString(trimComment(line))
@@ -219,13 +217,11 @@ func renameEnumValue(value *protogen.EnumValue, prefix, enum string, strip int) 
 	scanner := bufio.NewScanner(strings.NewReader(string(value.Comments.Leading)))
 	for scanner.Scan() {
 		line := scanner.Text()
-		if line == "" {
-			continue
-		}
-
-		if index := strings.Index(line, goNameComment); index >= 0 {
-			name = strings.TrimSpace(line[index+len(goNameComment):])
-			continue
+		if line != "" {
+			if index := strings.Index(line, goNameComment); index >= 0 {
+				name = strings.TrimSpace(line[index+len(goNameComment):])
+				continue
+			}
 		}
 
 		buf.WriteString(trimComment(line))

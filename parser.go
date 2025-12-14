@@ -145,29 +145,27 @@ func (field *Field) parseComments(comments protogen.Comments) (replacement proto
 	scanner := bufio.NewScanner(strings.NewReader(string(comments)))
 	for scanner.Scan() {
 		line := scanner.Text()
-		if line == "" {
-			continue
-		}
+		if line != "" {
+			pattern := strings.TrimSpace(strings.TrimPrefix(strings.TrimSpace(line), "*"))
+			if strings.HasPrefix(pattern, "@go.name=") {
+				name := pattern[9:]
+				if name != "" && validate.MatchString(name) && unicode.IsUpper(rune(name[0])) {
+					field.GoName = name
+					continue
+				}
 
-		pattern := strings.TrimSpace(strings.TrimPrefix(strings.TrimSpace(line), "*"))
-		if strings.HasPrefix(pattern, "@go.name=") {
-			name := pattern[9:]
-			if name != "" && validate.MatchString(name) && unicode.IsUpper(rune(name[0])) {
-				field.GoName = name
-				continue
+				fmt.Fprintf(os.Stderr, "skip %s go name replacement, illegal value '%s'", field.Name, name)
+			} else if matches := re.FindStringSubmatch(pattern); len(matches) == 3 {
+				value := strings.TrimSpace(matches[2])
+				value = strings.TrimSuffix(strings.TrimPrefix(value, "\""), "\"")
+				tag := &Tag{Kind: matches[1], Value: value}
+				if index := strings.IndexByte(strings.TrimSpace(tag.Value), ' '); index == -1 {
+					field.Tags = append(field.Tags, tag)
+					continue
+				}
+
+				fmt.Fprintf(os.Stderr, "skip commentary tag '%s' declaration, illegal value '%s'", tag.Kind, tag.Value)
 			}
-
-			fmt.Fprintf(os.Stderr, "skip %s go name replacement, illegal value '%s'", field.Name, name)
-		} else if matches := re.FindStringSubmatch(pattern); len(matches) == 3 {
-			value := strings.TrimSpace(matches[2])
-			value = strings.TrimSuffix(strings.TrimPrefix(value, "\""), "\"")
-			tag := &Tag{Kind: matches[1], Value: value}
-			if index := strings.IndexByte(strings.TrimSpace(tag.Value), ' '); index == -1 {
-				field.Tags = append(field.Tags, tag)
-				continue
-			}
-
-			fmt.Fprintf(os.Stderr, "skip commentary tag '%s' declaration, illegal value '%s'", tag.Kind, tag.Value)
 		}
 
 		buf.WriteString(trimComment(line))

@@ -326,6 +326,8 @@ type Dog struct {
 	// test3
 	//
 	//	test4
+	//
+	// test5
 	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Age           int32  `protobuf:"varint,2,opt,name=age,proto3" json:"age,omitempty"`
 	unknownFields protoimpl.UnknownFields

@@ -39,6 +39,8 @@ message dog {
    * test2
    ** test3
    **   test4
+   *
+   * test5
    */
   string name = 1;
   int32 age = 2;
