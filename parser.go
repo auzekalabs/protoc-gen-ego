@@ -170,8 +170,21 @@ func (field *Field) parseComments(comments protogen.Comments) (replacement proto
 			fmt.Fprintf(os.Stderr, "skip commentary tag '%s' declaration, illegal value '%s'", tag.Kind, tag.Value)
 		}
 
-		buf.WriteString(line)
+		buf.WriteString(trimComment(line))
+		buf.WriteByte('\n')
 	}
 
 	return protogen.Comments(buf.String()), nil
+}
+
+func trimComment(s string) string {
+	s = strings.TrimLeftFunc(s, func(r rune) bool {
+		return unicode.IsSpace(r)
+	})
+
+	s = strings.TrimLeftFunc(s, func(r rune) bool {
+		return r == '/' || r == '*'
+	})
+
+	return s
 }

@@ -119,11 +119,13 @@ func (CPU) EnumDescriptor() ([]byte, []int) {
 	return file_testdata_message_proto_rawDescGZIP(), []int{1}
 }
 
-// // test1
-// // test2
+// test1
+// test2
 type OS int32
 
 const (
+	// test1
+	// test2
 	Harmony OS = 0
 	IOS     OS = 1
 	Android OS = 2
@@ -318,9 +320,14 @@ func (MessageManGender) EnumDescriptor() ([]byte, []int) {
 }
 
 type Dog struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Age           int32                  `protobuf:"varint,2,opt,name=age,proto3" json:"age,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// test1
+	// test2
+	// test3
+	//
+	//	test4
+	Name          string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Age           int32  `protobuf:"varint,2,opt,name=age,proto3" json:"age,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

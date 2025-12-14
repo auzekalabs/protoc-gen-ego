@@ -154,7 +154,7 @@ func renameEnumType(enum *protogen.Enum) (strip int) {
 
 	var name string
 
-	leading := enum.Comments.Leading.String()
+	leading := string(enum.Comments.Leading)
 	var buf bytes.Buffer
 	scanner := bufio.NewScanner(strings.NewReader(leading))
 	for scanner.Scan() {
@@ -179,7 +179,7 @@ func renameEnumType(enum *protogen.Enum) (strip int) {
 			continue
 		}
 
-		buf.WriteString(line)
+		buf.WriteString(trimComment(line))
 		buf.WriteByte('\n')
 	}
 
@@ -216,7 +216,7 @@ func renameEnumValue(value *protogen.EnumValue, prefix, enum string, strip int) 
 
 	const goNameComment = "@go.name="
 
-	scanner := bufio.NewScanner(strings.NewReader(value.Comments.Leading.String()))
+	scanner := bufio.NewScanner(strings.NewReader(string(value.Comments.Leading)))
 	for scanner.Scan() {
 		line := scanner.Text()
 		if line == "" {
@@ -228,13 +228,13 @@ func renameEnumValue(value *protogen.EnumValue, prefix, enum string, strip int) 
 			continue
 		}
 
-		buf.WriteString(line)
+		buf.WriteString(trimComment(line))
 		buf.WriteByte('\n')
 	}
 
 	value.Comments.Leading = protogen.Comments(buf.String())
 	if name == "" {
-		trailing := value.Comments.Trailing.String()
+		trailing := string(value.Comments.Trailing)
 		if index := strings.Index(trailing, goNameComment); index >= 0 {
 			name = strings.TrimSpace(trailing[index+len(goNameComment):])
 			value.Comments.Trailing = ""
