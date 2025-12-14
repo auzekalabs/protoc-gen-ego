@@ -31,6 +31,9 @@ enum OS {
   */
   HARMONY = 0; 
   IOS = 1;/* @go.name=IOS */
+  /* Test abc
+   *     test 123
+   */
   ANDROID = 2;
 }
 

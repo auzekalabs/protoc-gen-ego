@@ -176,13 +176,11 @@ func (field *Field) parseComments(comments protogen.Comments) (replacement proto
 }
 
 func trimComment(s string) string {
-	s = strings.TrimLeftFunc(s, func(r rune) bool {
-		return unicode.IsSpace(r)
-	})
-
-	s = strings.TrimLeftFunc(s, func(r rune) bool {
-		return r == '/' || r == '*'
-	})
+	if strings.HasPrefix(s, "//") || strings.HasPrefix(s, "*") {
+		s = strings.TrimLeftFunc(s, func(r rune) bool {
+			return r == '/' || r == '*'
+		})
+	}
 
 	return s
 }
