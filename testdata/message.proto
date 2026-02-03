@@ -26,12 +26,25 @@ enum CPU {
 // test2
 // @go.name=OS
 enum OS {
+  /* test1
+   ** test2
+  */
   HARMONY = 0; 
   IOS = 1;/* @go.name=IOS */
+  /* Test abc
+   *     test 123
+   */
   ANDROID = 2;
 }
 
 message dog {
+  /* test1
+   * test2
+   ** test3
+   **   test4
+   *
+   * test5
+   */
   string name = 1;
   int32 age = 2;
 }

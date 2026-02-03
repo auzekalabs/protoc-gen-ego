@@ -10,7 +10,7 @@ import (
 var (
 	major      = 0
 	minor      = 2
-	patch      = 1
+	patch      = 3
 	preRelease = ""
 )
 
