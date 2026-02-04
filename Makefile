@@ -7,7 +7,7 @@ protoc-gen-ego: $(SOURCES)
 
 .PHONY: install
 install: $(SOURCES)
-	go install -ldflags '-s -w -X main.version=$(VERSION) -X main.rc=$(RC)'
+	go install -ldflags '-s -w'
 
 .PHONY: desc
 desc: ./testdata/message.proto
