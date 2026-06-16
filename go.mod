@@ -1,11 +1,11 @@
-module github.com/cosmorse/protoc-gen-ego
+module github.com/auzekalabs/protoc-gen-ego
 
-go 1.24.6
+go 1.26.4
 
 require (
-	github.com/samber/lo v1.51.0
+	github.com/samber/lo v1.53.0
 	github.com/stoewer/go-strcase v1.3.1
-	google.golang.org/protobuf v1.36.7
+	google.golang.org/protobuf v1.36.11
 )
 
-require golang.org/x/text v0.28.0 // indirect
+require golang.org/x/text v0.38.0 // indirect
