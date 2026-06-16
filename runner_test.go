@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cosmorse/protoc-gen-ego/testdata"
+	"github.com/auzekalabs/protoc-gen-ego/testdata"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/proto"
 )

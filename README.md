@@ -16,7 +16,7 @@ For more information about the usage of this plugin, see: https://protobuf.dev/r
 
 ## Installation
 ```bash
-go install github.com/cosmorse/proto-gen-ego
+go install github.com/auzekalabs/proto-gen-ego
 ```
 
 ## Usage
